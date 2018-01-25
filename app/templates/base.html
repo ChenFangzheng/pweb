@@ -1,0 +1,48 @@
+{% extends "bootstrap/base.html" %}
+
+{% block title %}安徽省商务厅电子商务统计监测平台{% endblock %}
+
+{% block head %}
+    {{ super() }}
+    <link rel="shortcut icon" href="{{ url_for('static', filename='favicon.ico') }}" type="image/x-icon">
+    <link rel="icon" href="{{ url_for('static', filename='favicon.ico') }}" type="image/x-icon">
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='styles.css') }}">
+{% endblock %}
+
+{% block navbar %}
+    <div class="content-header">
+        <h1>安徽省商务厅电子商务统计监测平台</h1>
+        {% if current_user.is_authenticated %}
+            <ul>
+                <li>
+                    <image src="{{ url_for('static', filename='images/201712131511099201.jpeg') }}" alt=""></image>
+                </li>
+                <li class="userRole">
+                    <span>{{ current_user.username }}</span>
+                </li>
+                <li class="modify_pd">
+                    <span>修改密码</span>
+                </li>
+                <li class="logout">
+                    <span><a href="{{ url_for('auth.logout') }}">退出</a></span>
+                </li>
+            </ul>
+        {% endif %}
+    </div>
+{% endblock %}
+
+{% block content %}
+    {% for message in get_flashed_messages() %}
+        <div class="alert alert-warning">
+            <button type="button" class="close" data-dismiss="alert">&times;</button>
+            {{ message }}
+        </div>
+    {% endfor %}
+    <div class="container">
+        {% block page_content %}
+
+            <h1>欢迎进入Base空间</h1>
+
+        {% endblock %}
+    </div>
+{% endblock %}
