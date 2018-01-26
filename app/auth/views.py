@@ -1,8 +1,9 @@
 from flask import render_template, request, url_for, redirect, flash
 from flask_login import login_user, current_user, login_required, logout_user
 from . import auth
-from .form import LoginForm
-from ..models import User
+from .. import db
+from .form import LoginForm, AddUserForm
+from ..models import User, Role
 
 
 @auth.route('/login', methods=['GET', 'POST'])
@@ -26,3 +27,23 @@ def logout():
     logout_user()
     flash('你已经登出系统！')
     return redirect(url_for('auth.login'))
+
+
+@auth.route('/add_user', methods=['GET', 'POST'])
+@login_required
+def add_user():
+    form = AddUserForm()
+    if form.validate_on_submit():
+        user = User(username=form.username.data,
+                    password=form.password.data,
+                    role=Role.query.get(form.role.data),
+                    name=form.name.data,
+                    email=form.email.data,
+                    mobile=form.mobile.data,
+                    location=form.location.data,
+                    about_me=form.about_me.data)
+        db.session.add(user)
+        db.session.commit()
+        flash('用户%r已经被添加到系统中' % form.username.data)
+        return redirect(url_for('auth.add_user'))
+    return render_template('auth/add_user.html', form=form)
