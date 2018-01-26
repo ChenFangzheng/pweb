@@ -20,8 +20,13 @@
                 <li class="userRole">
                     <span>{{ current_user.username }}</span>
                 </li>
+                {% if current_user.is_administrator() %}
+                    <li class="userlist">
+                        <span><a href="{{ url_for('auth.users') }}">用户列表</a></span>
+                    </li>
+                {% endif %}
                 <li class="modify_pd">
-                    <span>修改密码</span>
+                    <span><a href="{{ url_for('auth.change_password') }}">修改密码</a></span>
                 </li>
                 <li class="logout">
                     <span><a href="{{ url_for('auth.logout') }}">退出</a></span>

@@ -12,6 +12,15 @@ class LoginForm(FlaskForm):
     submit = SubmitField('登录')
 
 
+class ChangePassWordForm(FlaskForm):
+    old_password = PasswordField('原始密码', validators=[DataRequired()])
+    password = PasswordField('新密码', validators=[
+        DataRequired(), EqualTo('repeat_password', message='两次输入的密码不一致.')])
+    repeat_password = PasswordField('重新输入新密码',
+                                    validators=[DataRequired()])
+    submit = SubmitField('更新密码')
+
+
 class AddUserForm(FlaskForm):
     username = StringField('用户名', validators=[DataRequired(), Length(1, 64),
                                               Regexp('^[A-Za-z][A-Za-z0-9_.]*$', 0,

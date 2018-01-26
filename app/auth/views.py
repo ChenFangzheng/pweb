@@ -2,9 +2,9 @@ from flask import render_template, request, url_for, redirect, flash, current_ap
 from flask_login import login_user, current_user, login_required, logout_user
 from . import auth
 from .. import db
-from .form import LoginForm, AddUserForm
+from .form import LoginForm, AddUserForm, ChangePassWordForm
 from ..models import User, Role
-from ..decorators import admin_required, permission_required
+from ..decorators import admin_required
 
 
 @auth.route('/login', methods=['GET', 'POST'])
@@ -28,6 +28,22 @@ def logout():
     logout_user()
     flash('你已经登出系统！')
     return redirect(url_for('auth.login'))
+
+
+@auth.route('/change_password', methods=['GET', 'POST'])
+@login_required
+def change_password():
+    form = ChangePassWordForm()
+    if form.validate_on_submit():
+        if current_user.verify_password(form.old_password.data):
+            current_user.password = form.password.data
+            db.session.add(current_user)
+            db.session.commit()
+            flash('密码已更新')
+            return redirect(url_for('main.index'))
+        else:
+            flash('原始密码错误')
+    return render_template('auth/change_password.html', form=form)
 
 
 @auth.route('/users', methods=['GET', 'POST'])
