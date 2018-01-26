@@ -39,8 +39,8 @@
     border-left: 1px solid #808080;
 }
 
-.content-header .userRole span{
-    border:none;
+.content-header .userRole span {
+    border: none;
 }
 
 .content-header ul li img {
@@ -49,13 +49,49 @@
     border-radius: 15px;
 }
 
-.content-header a{
+.content-header a {
     margin-right: 2rem;
 }
 
-.container{
+.container {
     display: flex;
-    padding-top: 2rem;
+    padding: 2rem 0;
+    flex-direction: column;
     justify-content: center;
     align-items: center;
+}
+
+.user_list {
+    width: 95%;
+}
+
+.user_list th {
+    text-align: center;
+}
+
+.user_list td, th {
+    height: 100%;
+    border: 1px solid #ccc;
+    line-height: 200%;
+}
+
+.add_user_link {
+    width: 95%;
+    display: flex;
+    justify-content: flex-end;
+    margin: 0 0 1.5rem 0;
+}
+.loginForm a{
+    display: block;
+    border: 1px solid #ccc;
+    -webkit-border-radius: 0.3rem;
+    -moz-border-radius: 0.3rem;
+    border-radius: 0.3rem;
+    cursor: pointer;
+    width:4rem;
+    padding: 0.5rem;
+    line-height: 150%;
+    text-align: center;
+    margin-left: 10rem;
+    margin-top: -3.3rem;
 }

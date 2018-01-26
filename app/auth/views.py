@@ -1,9 +1,10 @@
-from flask import render_template, request, url_for, redirect, flash
+from flask import render_template, request, url_for, redirect, flash, current_app
 from flask_login import login_user, current_user, login_required, logout_user
 from . import auth
 from .. import db
 from .form import LoginForm, AddUserForm
 from ..models import User, Role
+from ..decorators import admin_required, permission_required
 
 
 @auth.route('/login', methods=['GET', 'POST'])
@@ -29,8 +30,21 @@ def logout():
     return redirect(url_for('auth.login'))
 
 
+@auth.route('/users', methods=['GET', 'POST'])
+@login_required
+@admin_required
+def users():
+    page = request.args.get('page', 1, type=int)
+    pagination = User.query.order_by(User.member_since).paginate(
+        page, per_page=current_app.config['FLASKY_POSTS_PER_PAGE'],
+        error_out=False)
+    users = pagination.items
+    return render_template('auth/users.html', users=users, pagination=pagination)
+
+
 @auth.route('/add_user', methods=['GET', 'POST'])
 @login_required
+@admin_required
 def add_user():
     form = AddUserForm()
     if form.validate_on_submit():
@@ -45,5 +59,5 @@ def add_user():
         db.session.add(user)
         db.session.commit()
         flash('用户%r已经被添加到系统中' % form.username.data)
-        return redirect(url_for('auth.add_user'))
+        return redirect(url_for('auth.users'))
     return render_template('auth/add_user.html', form=form)
