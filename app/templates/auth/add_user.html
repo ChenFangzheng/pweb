@@ -2,8 +2,7 @@
 {% import "bootstrap/wtf.html" as wtf %}
 
 {% block page_content %}
-    <div class="col-md-6 loginForm">
+    <div class="col-md-6 add-user-form">
         {{ wtf.quick_form(form) }}
-        <a href="{{ url_for('auth.users') }}">取消</a>
     </div>
 {% endblock %}

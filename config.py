@@ -15,7 +15,7 @@ class Config:
     FLASKY_MAIL_SENDER = 'Flasky Admin <fangzheng_1119@163.com>'
     # FLASKY_ADMIN = os.environ.get('FLASKY_ADMIN') or 'fangzheng_1119@163.com'
     SQLALCHEMY_TRACK_MODIFICATIONS = False
-    FLASKY_POSTS_PER_PAGE = 20
+    FLASKY_POSTS_PER_PAGE = 2
     FLASKY_FOLLOWERS_PER_PAGE = 50
     FLASKY_COMMENTS_PER_PAGE = 30
 
